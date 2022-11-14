@@ -3,8 +3,6 @@ package com.potatorestaurant.single.domain.model;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,15 +10,13 @@ import javax.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.potatorestaurant.single.domain.enums.CustomerTableStatusEnum;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class CustomerTable {
+public class MenuCategory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +24,6 @@ public class CustomerTable {
 	private Long id;
 
 	private String name;
-	
-	@Enumerated(EnumType.ORDINAL)
-	private CustomerTableStatusEnum status;
 
 	@CreationTimestamp
 	private OffsetDateTime createdAt;

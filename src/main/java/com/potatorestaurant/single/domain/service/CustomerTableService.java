@@ -6,9 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.potatorestaurant.single.domain.CustomerTableRepository;
 import com.potatorestaurant.single.domain.enums.CustomerTableStatusEnum;
 import com.potatorestaurant.single.domain.model.CustomerTable;
+import com.potatorestaurant.single.domain.repository.CustomerTableRepository;
 
 @Service
 public class CustomerTableService {
