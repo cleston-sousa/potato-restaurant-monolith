@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.potatorestaurant.single.domain.enums.CustomerTableStatusEnum;
 import com.potatorestaurant.single.domain.model.CustomerTable;
-import com.potatorestaurant.single.domain.repository.CustomerTableRepository;
+import com.potatorestaurant.single.domain.repository.ICustomerTableRepository;
 
 @Service
 public class CustomerTableService {
 
 	@Autowired
-	CustomerTableRepository customerTableRepository;
+	ICustomerTableRepository customerTableRepository;
 
 	public List<CustomerTable> listAll() {
 		return customerTableRepository.findAll();
