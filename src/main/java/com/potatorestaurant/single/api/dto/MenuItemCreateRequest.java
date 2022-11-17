@@ -9,9 +9,13 @@ import lombok.Data;
 public class MenuItemCreateRequest {
 
 	Long menuCategory;
+	
 	String name;
+	
 	String description;
+	
 	BigDecimal price;
+	
 	List<MenuItemIngredientRequest> listIngredients;
 
 }

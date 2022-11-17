@@ -1,5 +1,7 @@
 package com.potatorestaurant.single.api.dto;
 
+import java.time.OffsetDateTime;
+
 import lombok.Data;
 
 @Data
@@ -11,6 +13,8 @@ public class CustomerTableResponse {
 
 	private Integer status;
 
-	private String statusDescription;
+	private OffsetDateTime createdAt;
+
+	private OffsetDateTime updatedAt;
 
 }

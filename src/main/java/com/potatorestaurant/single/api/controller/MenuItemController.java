@@ -19,13 +19,14 @@ import com.potatorestaurant.single.api.dto.MenuItemCreateRequest;
 import com.potatorestaurant.single.api.dto.MenuItemEditRequest;
 import com.potatorestaurant.single.api.dto.MenuItemIngredientRequest;
 import com.potatorestaurant.single.api.dto.MenuItemResponse;
+import com.potatorestaurant.single.core.modelmapper.ModelMapperUtils;
 import com.potatorestaurant.single.domain.enums.MenuItemStatusEnum;
 import com.potatorestaurant.single.domain.model.Ingredient;
 import com.potatorestaurant.single.domain.model.MenuItem;
 import com.potatorestaurant.single.domain.service.MenuItemService;
 
 @RestController
-@RequestMapping("/menu-categories")
+@RequestMapping("/menu-items")
 public class MenuItemController {
 
 	@Autowired
@@ -34,23 +35,7 @@ public class MenuItemController {
 	@GetMapping
 	public List<MenuItemResponse> listAll() {
 		List<MenuItem> result = menuItemService.listAll(null);
-		List<MenuItemResponse> response = new ArrayList<>();
-
-		for (MenuItem menuItem : result) {
-			MenuItemResponse item = new MenuItemResponse();
-
-			item.setId(menuItem.getId());
-			item.setName(menuItem.getName());
-			item.setMenuCategory(menuItem.getMenuCategory().getId());
-			item.setMenuCategoryName(menuItem.getMenuCategory().getName());
-			item.setDescription(menuItem.getDescription());
-			item.setStatus(menuItem.getStatus().ordinal());
-			item.setStatusDescription(menuItem.getStatus().name());
-			item.setPrice(menuItem.getPrice());
-
-			response.add(item);
-		}
-
+		List<MenuItemResponse> response = ModelMapperUtils.mapList(result, MenuItemResponse.class);
 		return response;
 	}
 
@@ -83,14 +68,12 @@ public class MenuItemController {
 		response.setStatus(result.getStatus().ordinal());
 		response.setStatusDescription(result.getStatus().name());
 		response.setPrice(result.getPrice());
-		
-		
+
 		return response;
 	}
 
 	@PatchMapping("/{id}")
 	public MenuItemResponse editCategory(@PathVariable Long id, @RequestBody MenuItemEditRequest request) {
-
 
 		List<Ingredient> listIngredients = new ArrayList<>();
 		for (MenuItemIngredientRequest item : request.getListIngredients()) {
@@ -105,7 +88,8 @@ public class MenuItemController {
 			listIngredients.add(newIngredient);
 		}
 
-		MenuItem result = menuItemService.edit(id, request.getMenuCategory(), request.getName(), request.getDescription(), request.getPrice(), MenuItemStatusEnum.get(request.getStatus()), listIngredients);
+		MenuItem result = menuItemService.edit(id, request.getMenuCategory(), request.getName(), request.getDescription(), request.getPrice(), MenuItemStatusEnum.get(request.getStatus()),
+				listIngredients);
 
 		MenuItemResponse response = new MenuItemResponse();
 
@@ -117,8 +101,7 @@ public class MenuItemController {
 		response.setStatus(result.getStatus().ordinal());
 		response.setStatusDescription(result.getStatus().name());
 		response.setPrice(result.getPrice());
-		
-		
+
 		return response;
 	}
 

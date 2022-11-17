@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class MenuItemIngredientRequest {
 
-	private Long id;
-
 	private String name;
 
 	private String description;

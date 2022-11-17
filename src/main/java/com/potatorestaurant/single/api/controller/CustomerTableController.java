@@ -1,6 +1,5 @@
 package com.potatorestaurant.single.api.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.potatorestaurant.single.api.dto.CustomerTableCreateRequest;
 import com.potatorestaurant.single.api.dto.CustomerTableEditRequest;
+import com.potatorestaurant.single.api.dto.CustomerTableEditStatusRequest;
 import com.potatorestaurant.single.api.dto.CustomerTableResponse;
+import com.potatorestaurant.single.core.modelmapper.ModelMapperUtils;
 import com.potatorestaurant.single.domain.enums.CustomerTableStatusEnum;
 import com.potatorestaurant.single.domain.model.CustomerTable;
 import com.potatorestaurant.single.domain.service.CustomerTableService;
@@ -31,55 +32,25 @@ public class CustomerTableController {
 
 	@GetMapping
 	public List<CustomerTableResponse> listAllTables() {
-
 		List<CustomerTable> result = customerTableService.listAll();
-
-		List<CustomerTableResponse> response = new ArrayList<>();
-
-		for (CustomerTable resultItem : result) {
-
-			CustomerTableResponse responseItem = new CustomerTableResponse();
-
-			responseItem.setId(resultItem.getId());
-			responseItem.setName(resultItem.getName());
-			responseItem.setStatus(resultItem.getStatus().ordinal());
-			responseItem.setStatusDescription(resultItem.getStatus().name());
-
-			response.add(responseItem);
-		}
-
+		List<CustomerTableResponse> response = ModelMapperUtils.mapList(result, CustomerTableResponse.class);
 		return response;
 	}
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public CustomerTableResponse addTable(@RequestBody CustomerTableCreateRequest request) {
-
-		CustomerTable result = customerTableService.create(request.getName());
-
-		CustomerTableResponse response = new CustomerTableResponse();
-
-		response.setId(result.getId());
-		response.setName(result.getName());
-		response.setStatus(result.getStatus().ordinal());
-		response.setStatusDescription(result.getStatus().name());
-
+		CustomerTable toCreate = ModelMapperUtils.map(request, CustomerTable.class);
+		CustomerTable result = customerTableService.create(toCreate);
+		CustomerTableResponse response = ModelMapperUtils.map(result, CustomerTableResponse.class);
 		return response;
 	}
 
 	@PatchMapping("/{id}")
 	public CustomerTableResponse editTable(@PathVariable Long id, @RequestBody CustomerTableEditRequest request) {
-
-		CustomerTable result = customerTableService.edit(id, request.getName(),
-				CustomerTableStatusEnum.get(request.getStatus()));
-
-		CustomerTableResponse response = new CustomerTableResponse();
-
-		response.setId(result.getId());
-		response.setName(result.getName());
-		response.setStatus(result.getStatus().ordinal());
-		response.setStatusDescription(result.getStatus().name());
-
+		CustomerTable toEdit = ModelMapperUtils.map(request, CustomerTable.class);
+		CustomerTable result = customerTableService.edit(id, toEdit);
+		CustomerTableResponse response = ModelMapperUtils.map(result, CustomerTableResponse.class);
 		return response;
 	}
 
@@ -91,21 +62,22 @@ public class CustomerTableController {
 
 	@PostMapping("/status/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void editTableStatus(@PathVariable Long id, @RequestBody CustomerTableEditRequest request) {
-		customerTableService.edit(id, null, CustomerTableStatusEnum.get(request.getStatus()));
+	public void editTableStatus(@PathVariable Long id, @RequestBody CustomerTableEditStatusRequest request) {
+		CustomerTable toEdit = ModelMapperUtils.map(request, CustomerTable.class);
+		customerTableService.edit(id, toEdit);
 	}
 
 	@PostMapping("/start-service/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void startTableService(@PathVariable Long id) {
-		customerTableService.edit(id, null, CustomerTableStatusEnum.OCCUPIED);
+		customerTableService.editStatus(id, CustomerTableStatusEnum.OCCUPIED);
 
 	}
 
 	@PostMapping("/stop-service/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void stopTableService(@PathVariable Long id) {
-		customerTableService.edit(id, null, CustomerTableStatusEnum.PAYMENT);
+		customerTableService.editStatus(id, CustomerTableStatusEnum.PAYMENT);
 	}
 
 }
