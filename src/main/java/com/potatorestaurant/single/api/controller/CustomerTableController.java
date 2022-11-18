@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.potatorestaurant.single.api.controller.openapi.CustomerTableControllerOpenApi;
 import com.potatorestaurant.single.api.dto.CustomerTableCreateRequest;
 import com.potatorestaurant.single.api.dto.CustomerTableEditRequest;
 import com.potatorestaurant.single.api.dto.CustomerTableEditStatusRequest;
@@ -25,7 +26,7 @@ import com.potatorestaurant.single.domain.service.CustomerTableService;
 
 @RestController
 @RequestMapping("/customer-tables")
-public class CustomerTableController {
+public class CustomerTableController implements CustomerTableControllerOpenApi {
 
 	@Autowired
 	CustomerTableService customerTableService;

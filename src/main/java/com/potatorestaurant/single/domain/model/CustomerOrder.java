@@ -40,4 +40,7 @@ public class CustomerOrder {
 	@OneToMany(mappedBy = "ingredientId.customerOrder")
 	List<AddIngredient> addIngredient;
 
+	@OneToMany(mappedBy = "ingredientId.customerOrder")
+	List<RemoveIngredient> removeIngredient;
+
 }

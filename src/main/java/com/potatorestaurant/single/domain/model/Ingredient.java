@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ public class Ingredient {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private MenuItem menuItem;
 
 	private String name;
@@ -36,4 +37,7 @@ public class Ingredient {
 
 	@OneToMany(mappedBy = "ingredientId.ingredient")
 	List<AddIngredient> addIngredient;
+
+	@OneToMany(mappedBy = "ingredientId.ingredient")
+	List<RemoveIngredient> removeIngredient;
 }

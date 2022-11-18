@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.potatorestaurant.single.api.controller.openapi.MenuCategoryControllerOpenApi;
 import com.potatorestaurant.single.api.dto.MenuCategoryCreateRequest;
 import com.potatorestaurant.single.api.dto.MenuCategoryEditRequest;
 import com.potatorestaurant.single.api.dto.MenuCategoryResponse;
@@ -23,7 +24,7 @@ import com.potatorestaurant.single.domain.service.MenuCategoryService;
 
 @RestController
 @RequestMapping("/menu-categories")
-public class MenuCategoryController {
+public class MenuCategoryController implements MenuCategoryControllerOpenApi {
 
 	@Autowired
 	MenuCategoryService menuCategoryService;
