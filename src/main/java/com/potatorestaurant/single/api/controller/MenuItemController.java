@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,11 @@ import com.potatorestaurant.single.api.controller.openapi.MenuItemControllerOpen
 import com.potatorestaurant.single.api.dto.MenuItemAddIngredientRequest;
 import com.potatorestaurant.single.api.dto.MenuItemCreateRequest;
 import com.potatorestaurant.single.api.dto.MenuItemEditRequest;
+import com.potatorestaurant.single.api.dto.MenuItemIngredientRequest;
+import com.potatorestaurant.single.api.dto.MenuItemIngredientResponse;
 import com.potatorestaurant.single.api.dto.MenuItemResponse;
 import com.potatorestaurant.single.core.modelmapper.ModelMapperUtils;
+import com.potatorestaurant.single.domain.model.Ingredient;
 import com.potatorestaurant.single.domain.model.MenuItem;
 import com.potatorestaurant.single.domain.service.MenuItemService;
 
@@ -36,18 +40,9 @@ public class MenuItemController implements MenuItemControllerOpenApi {
 		return response;
 	}
 
-	@PostMapping("/")
+	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public MenuItemResponse addMenuItem(@RequestBody MenuItemCreateRequest request) {
-		MenuItem newMenuItem = ModelMapperUtils.map(request, MenuItem.class);
-		MenuItem result = menuItemService.create(newMenuItem);
-		MenuItemResponse response = ModelMapperUtils.map(result, MenuItemResponse.class);
-		return response;
-	}
-
-	@PostMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public MenuItemResponse addMenuItemIngredients(@RequestBody MenuItemAddIngredientRequest request) {
 		MenuItem newMenuItem = ModelMapperUtils.map(request, MenuItem.class);
 		MenuItem result = menuItemService.create(newMenuItem);
 		MenuItemResponse response = ModelMapperUtils.map(result, MenuItemResponse.class);
@@ -61,6 +56,38 @@ public class MenuItemController implements MenuItemControllerOpenApi {
 		MenuItemResponse response = ModelMapperUtils.map(result, MenuItemResponse.class);
 		return response;
 	}
+
+	@PostMapping("/ingredients/{id}")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public MenuItemIngredientResponse addMenuItemIngredient(@PathVariable Long id, @RequestBody MenuItemIngredientRequest request) {
+		Ingredient newIngredient= ModelMapperUtils.map(request, Ingredient.class);
+		Ingredient result = menuItemService.addIngredientToMenuItem(id, newIngredient);
+		MenuItemIngredientResponse response = ModelMapperUtils.map(result, MenuItemIngredientResponse.class);
+		return response;
+	}
+
+	@PatchMapping("/ingredients/{id}")
+	public List<MenuItemIngredientResponse> editMenuItemIngredients(@PathVariable Long id, @RequestBody MenuItemAddIngredientRequest request) {
+		List<Ingredient> newIngredients=  ModelMapperUtils.mapList(request.getIngredients(), Ingredient.class);
+		List<Ingredient> result = menuItemService.editIngredientsFromMenuItem(id, newIngredients);
+		List<MenuItemIngredientResponse> response = ModelMapperUtils.mapList(result, MenuItemIngredientResponse.class);
+		return response;
+	}
+
+
+	@DeleteMapping("/ingredients/{ingredientId}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void removeMenuItemIngredient(@PathVariable Long ingredientId) {
+		menuItemService.removeIngredientFromMenuItem(ingredientId);
+	}
+
+	@DeleteMapping("/ingredients/all/{id}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void removeMenuItemIngredients(@PathVariable Long id) {
+		menuItemService.removeAllIngredientsFromMenuItem(id);
+	}
+	
+	
 /*
 	@PatchMapping("/{id}")
 	public MenuItemResponse editMenuItem(@PathVariable Long id, @RequestBody MenuItemEditRequest request) {
