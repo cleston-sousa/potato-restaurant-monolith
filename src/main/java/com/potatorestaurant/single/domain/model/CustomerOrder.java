@@ -2,6 +2,7 @@ package com.potatorestaurant.single.domain.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -37,10 +38,10 @@ public class CustomerOrder {
 	@Enumerated(EnumType.ORDINAL)
 	private CustomerOrderStatusEnum status;
 
-	@OneToMany(mappedBy = "ingredientId.customerOrder")
+	@OneToMany(mappedBy = "ingredientId.customerOrder", cascade = CascadeType.PERSIST)
 	List<AddIngredient> addIngredient;
 
-	@OneToMany(mappedBy = "ingredientId.customerOrder")
+	@OneToMany(mappedBy = "ingredientId.customerOrder", cascade = CascadeType.PERSIST)
 	List<RemoveIngredient> removeIngredient;
 
 }
