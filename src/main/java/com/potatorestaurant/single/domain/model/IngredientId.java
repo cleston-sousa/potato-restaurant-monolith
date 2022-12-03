@@ -15,11 +15,11 @@ public class IngredientId implements Serializable {
 
 	private static final long serialVersionUID = 502998436271580225L;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_order_id")
 	private CustomerOrder customerOrder;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ingredient_id")
 	private Ingredient ingredient;
 

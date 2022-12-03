@@ -78,41 +78,9 @@ public class MenuItemService {
 		return result;
 	}
 
-/*
-	public MenuItem edit(Long id, Long menuCategory, String name, String description, BigDecimal price, MenuItemStatusEnum status, List<Ingredient> listIngredients) {
-		MenuItem item = menuItemRepository.findById(id).orElseThrow();
-
-		if (menuCategory != null)
-			item.setMenuCategory(menuCategoryService.getById(menuCategory));
-
-		if (StringUtils.isNotBlank(name))
-			item.setName(name);
-
-		if (StringUtils.isNotBlank(description))
-			item.setDescription(description);
-
-		if (price != null && price.compareTo(BigDecimal.ZERO) > 0)
-			item.setPrice(price);
-
-		if (status != null)
-			item.setStatus(status);
-
-		ingredientService.deleteAll(item);
-
-		if (listIngredients != null && listIngredients.size() > 0) {
-			for (Ingredient ingredient : listIngredients) {
-				ingredientService.create(item, ingredient.getName(), ingredient.getDescription(), ingredient.isIncluded(), ingredient.getPrice());
-			}
-		}
-
-		return menuItemRepository.save(item);
-
-	}
-
 	public void delete(Long id) {
 		MenuItem item = menuItemRepository.findById(id).orElseThrow();
 		menuItemRepository.delete(item);
-
 	}
-*/
+
 }

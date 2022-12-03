@@ -3,13 +3,14 @@ package com.potatorestaurant.single.domain.service;
 import java.util.List;
 import java.util.Objects;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.potatorestaurant.single.core.modelmapper.ModelMapperUtils;
 import com.potatorestaurant.single.domain.enums.CustomerOrderStatusEnum;
 import com.potatorestaurant.single.domain.model.CustomerOrder;
-import com.potatorestaurant.single.domain.model.CustomerTable;
-import com.potatorestaurant.single.domain.model.MenuItem;
 import com.potatorestaurant.single.domain.repository.ICustomerOrderRepository;
 import com.potatorestaurant.single.domain.repository.ICustomerTableRepository;
 import com.potatorestaurant.single.domain.repository.IIngredientRepository;
@@ -44,15 +45,32 @@ public class CustomerOrderService {
 		return customerOrderRepository.findAll();
 	}
 
-	public CustomerOrder addOrder(CustomerOrder newOrder) {
+	public CustomerOrder create(CustomerOrder newOrder) {
+		
+		newOrder.getAddIngredient().forEach(item -> item.getIngredientId().setCustomerOrder(newOrder));
+		newOrder.getRemoveIngredient().forEach(item -> item.getIngredientId().setCustomerOrder(newOrder));
+		
+		newOrder.setStatus(CustomerOrderStatusEnum.AWAITING);
 
-		//TODO here
-			
-			
 		CustomerOrder result = customerOrderRepository.save(newOrder);
 		
 		return result;
 	}
 	
-	
+	@Transactional
+	public CustomerOrder edit(Long orderId, CustomerOrder editOrder) {
+		CustomerOrder order = customerOrderRepository.findById(orderId).orElseThrow();
+		editOrder.setAddIngredient(null);
+		editOrder.setRemoveIngredient(null);
+		ModelMapperUtils.map(editOrder, order);
+		CustomerOrder result = customerOrderRepository.save(order);
+		return result;
+	}
+
+	@Transactional
+	public void delete(Long id) {
+		CustomerOrder order = customerOrderRepository.findById(id).orElseThrow();
+		customerOrderRepository.delete(order);
+	}
+
 }

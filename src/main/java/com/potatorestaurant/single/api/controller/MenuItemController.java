@@ -22,6 +22,7 @@ import com.potatorestaurant.single.api.dto.MenuItemIngredientRequest;
 import com.potatorestaurant.single.api.dto.MenuItemIngredientResponse;
 import com.potatorestaurant.single.api.dto.MenuItemResponse;
 import com.potatorestaurant.single.core.modelmapper.ModelMapperUtils;
+import com.potatorestaurant.single.domain.enums.MenuItemStatusEnum;
 import com.potatorestaurant.single.domain.model.Ingredient;
 import com.potatorestaurant.single.domain.model.MenuItem;
 import com.potatorestaurant.single.domain.service.MenuItemService;
@@ -87,76 +88,15 @@ public class MenuItemController implements MenuItemControllerOpenApi {
 		menuItemService.removeAllIngredientsFromMenuItem(id);
 	}
 	
-	
-/*
-	@PatchMapping("/{id}")
-	public MenuItemResponse editMenuItem(@PathVariable Long id, @RequestBody MenuItemEditRequest request) {
-
-		List<Ingredient> listIngredients = new ArrayList<>();
-		for (MenuItemIngredientRequest item : request.getListIngredients()) {
-
-			Ingredient newIngredient = new Ingredient();
-
-			newIngredient.setName(item.getName());
-			newIngredient.setDescription(item.getDescription());
-			newIngredient.setIncluded(item.isIncluded());
-			newIngredient.setPrice(item.getPrice());
-
-			listIngredients.add(newIngredient);
-		}
-
-		MenuItem result = menuItemService.edit(id, request.getMenuCategory(), request.getName(), request.getDescription(), request.getPrice(), MenuItemStatusEnum.get(request.getStatus()),
-				listIngredients);
-
-		MenuItemResponse response = new MenuItemResponse();
-
-		response.setId(result.getId());
-		response.setName(result.getName());
-		response.setMenuCategory(result.getMenuCategory().getId());
-		response.setDescription(result.getDescription());
-		response.setStatus(result.getStatus().ordinal());
-		response.setPrice(result.getPrice());
-
-		return response;
-	}
-
-	@DeleteMapping("/{id}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void deleteMenuItem(@PathVariable Long id) {
+	@Override
+	public void deleteMenuItem(Long id) {
 		menuItemService.delete(id);
 	}
 
-	@GetMapping("/to-order")
+	@Override
 	public List<MenuItemResponse> listActiveMenuItems() {
 		List<MenuItem> result = menuItemService.listAll(MenuItemStatusEnum.ENABLED);
-		List<MenuItemResponse> response = new ArrayList<>();
-
-		for (MenuItem menuItem : result) {
-			MenuItemResponse item = new MenuItemResponse();
-
-			item.setId(menuItem.getId());
-			item.setName(menuItem.getName());
-			item.setMenuCategory(menuItem.getMenuCategory().getId());
-			item.setDescription(menuItem.getDescription());
-			item.setStatus(menuItem.getStatus().ordinal());
-			item.setPrice(menuItem.getPrice());
-
-			response.add(item);
-		}
-
+		List<MenuItemResponse> response = ModelMapperUtils.mapList(result, MenuItemResponse.class);
 		return response;
-	}
-*/
-
-	@Override
-	public void deleteMenuItem(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<MenuItemResponse> listActiveMenuItems() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

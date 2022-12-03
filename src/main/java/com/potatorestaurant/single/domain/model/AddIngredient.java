@@ -11,5 +11,4 @@ public class AddIngredient {
 
 	@EmbeddedId
 	private IngredientId ingredientId;
-
 }

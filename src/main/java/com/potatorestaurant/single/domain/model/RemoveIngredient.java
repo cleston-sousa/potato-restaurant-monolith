@@ -11,5 +11,4 @@ public class RemoveIngredient {
 
 	@EmbeddedId
 	private IngredientId ingredientId;
-
 }

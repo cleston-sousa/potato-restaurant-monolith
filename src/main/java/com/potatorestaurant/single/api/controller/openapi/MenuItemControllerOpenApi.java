@@ -44,7 +44,7 @@ public interface MenuItemControllerOpenApi {
 	public void removeMenuItemIngredient(@ApiParam(value = "Menu item id", example = "1", required = true) Long ingredientId);
 
 	@ApiOperation(value = "Remove a menu item")
-	void deleteMenuItem(Long id);
+	void deleteMenuItem(@ApiParam(value = "Menu item id", example = "1", required = true) Long id);
 
 	@ApiOperation(value = "List all menu items available to be consumed")
 	List<MenuItemResponse> listActiveMenuItems();
