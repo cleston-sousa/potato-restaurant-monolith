@@ -20,10 +20,7 @@ public class CustomerOrderCreateRequest {
 	@ApiModelProperty(name = "Quantity", example = "2")
 	private Integer quantity;
 
-	@ApiModelProperty(name = "List of ingredients IDs as additional items to current order", example = "[1, 2]")
-	List<Long> addIngredient = new ArrayList<>();
-
-	@ApiModelProperty(name = "List of ingredients IDs to be removed from current order", example = "[1, 2]")
-	List<Long> removeIngredient = new ArrayList<>();
+	@ApiModelProperty(name = "List of ingredients IDs as additional items to current order")
+	List<CustomerOrderIngredientRequest> customIngredient = new ArrayList<>();
 
 }

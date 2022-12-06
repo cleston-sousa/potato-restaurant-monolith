@@ -1,5 +1,6 @@
 package com.potatorestaurant.single.api.dto;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,22 +16,20 @@ public class CustomerOrderResponse {
 	@ApiModelProperty(name = "Customer order id", example = "1")
 	private Long id;
 
-	@ApiModelProperty(name = "Customer order name", example = "Ribs on the Barbie")
-	private Long customerTableId;
-
+	@ApiModelProperty(name = "Customer order table name", example = "Table 01")
 	private String customerTableName;
 
-	private Long menuItemId;
-
+	@ApiModelProperty(name = "Customer order menu item name", example = "Ribs on the Barbie")
 	private String menuItemName;
 
+	@ApiModelProperty(name = "Customer order menu item quantity", example = "3")
 	private Integer quantity;
 
 	@ApiModelProperty(name = "Customer order status id", example = "0")
 	private Integer status;
 
-	@ApiModelProperty(name = "Customer order status", example = "0")
-	private String statusDescription;
+	@ApiModelProperty(name = "Customer order price", example = "10.50")
+	private BigDecimal price;
 
 	@ApiModelProperty(name = "Customer order creation date", example = "YYYY-MM-DDTHH:mm:ss.sssZ")
 	private OffsetDateTime createdAt;
@@ -38,10 +37,7 @@ public class CustomerOrderResponse {
 	@ApiModelProperty(name = "Customer order last update date", example = "YYYY-MM-DDTHH:mm:ss.sssZ")
 	private OffsetDateTime updatedAt;
 
-	@ApiModelProperty(name = "List of additional ingredients to current order")
-	List<CustomerOrderIngredientResponse> addIngredient = new ArrayList<>();
-
-	@ApiModelProperty(name = "List of removed ingredients from current order")
-	List<CustomerOrderIngredientResponse> removeIngredient = new ArrayList<>();
+	@ApiModelProperty(name = "List of custom ingredients to current order")
+	List<CustomerOrderIngredientResponse> customIngredient = new ArrayList<>();
 
 }

@@ -17,8 +17,7 @@ public class ModelMapperConfig {
 		
 		modelMapper.getConfiguration().getConverters().add(new IntToEnumConverter());
 		modelMapper.getConfiguration().getConverters().add(new EnumToIntConverter());
-		modelMapper.getConfiguration().getConverters().add(new LongToAddIngredientConverter());
-		modelMapper.getConfiguration().getConverters().add(new LongToRemoveIngredientConverter());
+//		modelMapper.getConfiguration().getConverters().add(new LongToCustomIngredientConverter());
 		
 		return modelMapper;
 	}

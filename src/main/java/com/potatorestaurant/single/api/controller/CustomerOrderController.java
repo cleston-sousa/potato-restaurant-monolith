@@ -32,7 +32,7 @@ public class CustomerOrderController implements CustomerOrderControllerOpenApi {
 
 	@GetMapping
 	public List<CustomerOrderResponse> listAll() {
-		List<CustomerOrder> result = customerOrderService.listAll(null, null);
+		List<CustomerOrder> result = customerOrderService.listAll(null);
 		return ModelMapperUtils.mapList(result, CustomerOrderResponse.class);
 	}
 
@@ -54,7 +54,7 @@ public class CustomerOrderController implements CustomerOrderControllerOpenApi {
 
 	@GetMapping("/awaiting")
 	public List<CustomerOrderResponse> listAwaitingOrders() {
-		List<CustomerOrder> result = customerOrderService.listAll(CustomerOrderStatusEnum.AWAITING, null);
+		List<CustomerOrder> result = customerOrderService.listAll(CustomerOrderStatusEnum.AWAITING);
 		return ModelMapperUtils.mapList(result, CustomerOrderResponse.class);
 	}
 

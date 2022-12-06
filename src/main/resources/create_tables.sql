@@ -71,23 +71,7 @@ CREATE TABLE IF NOT EXISTS customer_order (
   status SMALLINT NOT NULL,
   price NUMERIC(7,2) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT NULL,
-  CONSTRAINT fk_customer_table FOREIGN KEY(customer_table_id) REFERENCES customer_table(id) ON DELETE SET NULL,
-  CONSTRAINT fk_menu_item FOREIGN KEY(menu_item_id) REFERENCES menu_item(id) ON DELETE SET NULL
-);
-
-CREATE TABLE IF NOT EXISTS remove_ingredient (
-  customer_order_id BIGINT NOT NULL,
-  ingredient_id BIGINT NOT NULL,
-  CONSTRAINT fk_customer_order FOREIGN KEY(customer_order_id) REFERENCES customer_order(id) ON DELETE SET NULL,
-  CONSTRAINT fk_ingredient FOREIGN KEY(ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS add_ingredient (
-  customer_order_id BIGINT NOT NULL,
-  ingredient_id BIGINT NOT NULL,
-  CONSTRAINT fk_customer_order FOREIGN KEY(customer_order_id) REFERENCES customer_order(id) ON DELETE SET NULL,
-  CONSTRAINT fk_ingredient FOREIGN KEY(ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE
+  updated_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS custom_ingredient (
@@ -213,8 +197,6 @@ CREATE TABLE IF NOT EXISTS custom_ingredient (
 # drop tables ordered
 
 drop table custom_ingredient;
-drop table add_ingredient;
-drop table remove_ingredient;
 drop table ingredient;
 drop table invoice_item;
 drop table invoice;

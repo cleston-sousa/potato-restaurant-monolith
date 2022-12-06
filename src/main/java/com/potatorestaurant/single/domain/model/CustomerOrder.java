@@ -1,5 +1,6 @@
 package com.potatorestaurant.single.domain.model;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,16 +34,22 @@ public class CustomerOrder {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private CustomerTable customerTable;
+	@Transient
+	private Long customerTableId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private MenuItem menuItem;
+	private String customerTableName;
+
+	@Transient
+	private Long menuItemId;
+
+	private String menuItemName;
 
 	private Integer quantity;
 
 	@Enumerated(EnumType.ORDINAL)
 	private CustomerOrderStatusEnum status;
+
+	private BigDecimal price;
 
 	@CreationTimestamp
 	private OffsetDateTime createdAt;
@@ -50,10 +57,7 @@ public class CustomerOrder {
 	@UpdateTimestamp
 	private OffsetDateTime updatedAt;
 
-	@OneToMany(mappedBy = "ingredientId.customerOrder", cascade = CascadeType.ALL)
-	List<AddIngredient> addIngredient = new ArrayList<>();
-
-	@OneToMany(mappedBy = "ingredientId.customerOrder", cascade = CascadeType.ALL)
-	List<RemoveIngredient> removeIngredient = new ArrayList<>();
+	@OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	List<CustomIngredient> customIngredient = new ArrayList<>();
 
 }

@@ -13,8 +13,11 @@ public class CustomerOrderIngredientResponse {
 	@ApiModelProperty(name = "Ingredient id", example = "1")
 	private Long id;
 
+	@ApiModelProperty(name = "Ingredient action", example = "REMOVE")
+	private String action;
+	
 	@ApiModelProperty(name = "Ingredient name", example = "Tomato")
-	private String name;
+	private String ingredientName;
 
 	@ApiModelProperty(name = "Ingredient price", example = "2.0")
 	private BigDecimal price;
